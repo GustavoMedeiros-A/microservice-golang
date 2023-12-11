@@ -1,0 +1,14 @@
+version: '3'
+
+services: 
+
+  broker-service:
+    build:
+      context: ./../broker-service
+      dockerfile: ./../broker-service/broker-server.dockerfile
+    restart: always
+    ports: 
+      - "8080:80" #hit the port of the api (8080) and set the port in the docker (80)
+    deploy: # just one replicas (but after when use server discovery, is gona change that)
+      mode: replicated
+      replicas: 1
