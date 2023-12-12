@@ -24,3 +24,12 @@
 - Add button and run in the front-end folder **go run ./cmd/web**
 
 # 5 - Create a helpers to read and write JSON file AND create a makefile to docker
+
+
+# 6 - Create a auth-service
+- Create the folder
+- run **go mod init authentication**
+- Add in past data the models to user 
+- Create the routes.go and add the chi, chi middleware and go on, same of we did in the Broker-service
+
+- **add database postgres config** -> go get github.com/jackc/pgconn + go get github.com/jackc/pgx/v4 + go get github.com/jackc/pgx/v4/stdlib
