@@ -12,6 +12,8 @@
 - **go get github.com/go-chi/chi/cors**
 - Run the code of the class 12
 
+- Run in the broker-service folder, **go run ./cmd/api/**
+
 # 3 - Create a docker image to the Broken Service
 
 - Create the dockerfile in the broken service directory, set all the configurantions that we write that

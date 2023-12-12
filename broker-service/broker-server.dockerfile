@@ -1,21 +1,24 @@
-# base go image
-FROM golang:1.21.5-alpine as builder
+# Comment this lines until the FROM alpine:latest
+# # base go image
+# FROM golang:1.21.5-alpine as builder
 
-RUN mkdir /app
+# RUN mkdir /app
 
-COPY . /app
+# COPY . /app
 
-WORKDIR /app
+# WORKDIR /app
 
-RUN CGO_ENABLED=0 go build -o brokerApp ./cmd/api
+# RUN CGO_ENABLED=0 go build -o brokerApp ./cmd/api
 
-RUN chmod +x /app/brokerApp
+# RUN chmod +x /app/brokerApp
 
-# build a small docker image
+# # build a small docker image
 FROM alpine:latest
 
 RUN mkdir /app
 
-COPY --from=builder /app/brokerApp /app
+# COPY --from=builder /app/brokerApp /app # FOR WINDOWS
+
+COPY brokerApp /app
 
 CMD [ "/app/brokerApp" ]
