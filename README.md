@@ -16,3 +16,9 @@
 
 - Create the dockerfile in the broken service directory, set all the configurantions that we write that
 - After that, create a docker-compose.yaml to run the docker and create the image of the project
+
+# 4 - Adding FRONT-END button
+
+- Add button and run in the front-end folder **go run ./cmd/web**
+
+# 5 - Create a helpers to read and write JSON file AND create a makefile to docker
