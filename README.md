@@ -37,3 +37,9 @@
 - add the users.sql to the database (run a query)
 
 - Create route and handler to accept JSON 
+ 
+# 7 - Connect the broker service into the auth-service
+- After finishing to config the auth service, add verify password and the Login method, you should pass in the Broker and go the the auth-service
+- Doing that, you'll verify if the credentials are correct and the user can login
+- Pass the broker, go to the auth and return the right Status 
+
