@@ -43,3 +43,7 @@
 - Doing that, you'll verify if the credentials are correct and the user can login
 - Pass the broker, go to the auth and return the right Status 
 
+
+# - Create the microservice LoggerService (Connect to mongoDB, to salve the log)
+
+- add mongo go **go get go.mongodb.org/mongo-driver/mongo** and **go get go.mongodb.org/mongo-driver/mongo/options**
