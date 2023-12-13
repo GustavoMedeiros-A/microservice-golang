@@ -33,3 +33,7 @@
 - Create the routes.go and add the chi, chi middleware and go on, same of we did in the Broker-service
 
 - **add database postgres config** -> go get github.com/jackc/pgconn + go get github.com/jackc/pgx/v4 + go get github.com/jackc/pgx/v4/stdlib
+- Config the database in the root of auth-service project
+- add the users.sql to the database (run a query)
+
+- Create route and handler to accept JSON 

@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 )
 
@@ -20,6 +21,9 @@ func (app *Config) routes() http.Handler {
 		AllowCredentials: true,
 		MaxAge:           300,
 	}))
+
+	route.Use(middleware.Heartbeat("/ping"))
+	route.Post("/authenticate", app.Authenticate)
 
 	return route
 
