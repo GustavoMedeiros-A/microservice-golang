@@ -17,7 +17,8 @@ FROM alpine:latest
 
 RUN mkdir /app
 
-# COPY --from=builder /app/brokerApp /app # FOR WINDOWS
+# COPY --from=builder /app/brokerApp /app 
+# FOR WINDOWS
 
 COPY brokerApp /app
 

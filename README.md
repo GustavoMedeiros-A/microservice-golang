@@ -25,25 +25,29 @@
 
 # 5 - Create a helpers to read and write JSON file AND create a makefile to docker
 
-
 # 6 - Create a auth-service
+
 - Create the folder
 - run **go mod init authentication**
-- Add in past data the models to user 
+- Add in past data the models to user
 - Create the routes.go and add the chi, chi middleware and go on, same of we did in the Broker-service
 
 - **add database postgres config** -> go get github.com/jackc/pgconn + go get github.com/jackc/pgx/v4 + go get github.com/jackc/pgx/v4/stdlib
 - Config the database in the root of auth-service project
 - add the users.sql to the database (run a query)
 
-- Create route and handler to accept JSON 
- 
+- Create route and handler to accept JSON
+
 # 7 - Connect the broker service into the auth-service
+
 - After finishing to config the auth service, add verify password and the Login method, you should pass in the Broker and go the the auth-service
 - Doing that, you'll verify if the credentials are correct and the user can login
-- Pass the broker, go to the auth and return the right Status 
-
+- Pass the broker, go to the auth and return the right Status
 
 # - Create the microservice LoggerService (Connect to mongoDB, to salve the log)
 
 - add mongo go **go get go.mongodb.org/mongo-driver/mongo** and **go get go.mongodb.org/mongo-driver/mongo/options**
+- Create all the struct of the service, handlers, helpers and etc, add the docker_file and the mongo to the docker folder
+- After done all the steps to build the logger service, we now gonna to add logger after the user is authenticated
+- In the handler.go of the AuthenticationService, add some configuration, the function **logRequest** is tell you better
+  what to do

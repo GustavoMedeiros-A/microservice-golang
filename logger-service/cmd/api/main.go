@@ -78,6 +78,7 @@ func main() {
 
 func connectToMongo() (*mongo.Client, error) {
 	// create connection options
+	log.Println("mongoURL", mongoURL)
 	clientOptions := options.Client().ApplyURI(mongoURL)
 
 	clientOptions.SetAuth(options.Credential{
@@ -86,13 +87,13 @@ func connectToMongo() (*mongo.Client, error) {
 	})
 
 	// connect
-	connection, err := mongo.Connect(context.TODO())
+	connection, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		log.Println("Error connecting to MongoDB: ", err)
 		return nil, err
 	}
 
-	log.Println("Connect to mongodb ")
+	log.Println("Connect to mongodb")
 
 	return connection, nil
 }
