@@ -44,10 +44,16 @@
 - Doing that, you'll verify if the credentials are correct and the user can login
 - Pass the broker, go to the auth and return the right Status
 
-# - Create the microservice LoggerService (Connect to mongoDB, to salve the log)
+# 8 - Create the microservice LoggerService (Connect to mongoDB, to salve the log)
 
 - add mongo go **go get go.mongodb.org/mongo-driver/mongo** and **go get go.mongodb.org/mongo-driver/mongo/options**
 - Create all the struct of the service, handlers, helpers and etc, add the docker_file and the mongo to the docker folder
 - After done all the steps to build the logger service, we now gonna to add logger after the user is authenticated
 - In the handler.go of the AuthenticationService, add some configuration, the function **logRequest** is tell you better
   what to do
+
+# 9 - Create the mail-service in docker, start the first steps of the service and go on
+
+- Create the first structure of the service, and start to config the mail service
+- Use **go get github.com/vanng822/go-premailer/premailer** and **go get github.com/xhit/go-simple-mail/v2**
+- This is the libarys we use to easily configure the mail
