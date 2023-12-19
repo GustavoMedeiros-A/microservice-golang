@@ -23,5 +23,7 @@ func (app *Config) routes() http.Handler {
 
 	route.Use(middleware.Heartbeat("/ping"))
 
+	route.Post("/send", app.SendMail)
+
 	return route
 }
