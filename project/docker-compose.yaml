@@ -112,9 +112,16 @@ services:
 
   # 3.12.10-alpine, 3.12-alpine, 3-alpine, alpine
   rabbitmq:
-    image: "rabbitmq:3.12.10-alpine"
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    environment:
+      - "RABBITMQ_ERLANG_COOKIE=SWQOKODSQALRPCLNMEQG"
+      - "RABBITMQ_DEFAULT_USER=rabbitmq"
+      - "RABBITMQ_DEFAULT_PASS=rabbitmq"
+      - "RABBITMQ_DEFAULT_VHOST=/"
     ports:
-      - "5672:5672"
+      - 15672:15672 # UI  -> localhost:15672
+      - 5672:5672 # AMQP -> Aplications
     deploy:
       mode: replicated
       replicas: 1
