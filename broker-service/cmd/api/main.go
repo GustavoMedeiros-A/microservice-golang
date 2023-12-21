@@ -3,15 +3,33 @@ package main
 import (
 	"fmt"
 	"log"
+	"math"
 	"net/http"
+	"os"
+	"time"
+
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 const webPort = "80"
 
-type Config struct{}
+type Config struct {
+	Rabbit *amqp.Connection
+}
 
 func main() {
-	app := Config{}
+	rabbitConn, err := connect()
+
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
+	defer rabbitConn.Close()
+	fmt.Println("We connect to rabbitMQ my Friend...")
+
+	app := Config{
+		Rabbit: rabbitConn,
+	}
 
 	log.Printf("Starting broken service on port %s\n", webPort)
 
@@ -22,8 +40,40 @@ func main() {
 	}
 
 	// start the server
-	err := srv.ListenAndServe()
+	err = srv.ListenAndServe()
 	if err != nil {
 		log.Panic(err)
 	}
+}
+
+func connect() (*amqp.Connection, error) {
+
+	var counts int64
+	var backOff = 1 * time.Second
+	var connection *amqp.Connection
+
+	// don't continue until rabbit is ready
+
+	for {
+		connect, err := amqp.Dial("amqp://guest:guest@rabbitmq")
+		if err != nil {
+			fmt.Println("RabbitMQ not yet ready...")
+			counts++
+		} else {
+			connection = connect
+			break
+		}
+		if counts > 5 {
+			fmt.Println(err)
+			return nil, err
+		}
+		// Increase the delay
+		backOff = time.Duration(math.Pow(float64(counts), 2)) * time.Second
+		fmt.Println("Backing off...")
+		time.Sleep(backOff)
+		continue
+	}
+
+	return connection, nil
+
 }

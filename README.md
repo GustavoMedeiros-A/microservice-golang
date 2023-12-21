@@ -57,3 +57,20 @@
 - Create the first structure of the service, and start to config the mail service
 - Use **go get github.com/vanng822/go-premailer/premailer** and **go get github.com/xhit/go-simple-mail/v2**
 - This is the libarys we use to easily configure the mail
+
+# 10 - Start the listener service using rabbitmq
+
+- Go to the project listener folder, and run go mod init listener and run **go get github.com/rabbitmq/amqp091-go**
+- Add the RabbitMQ to the docker-compose file
+- After adding RabbitMQ to the docker-compose, go to the project folder and run **docker-compose up -d**
+- **go get github.com/rabbitmq/amqp091-go**
+
+- Start to code the listener project, create a event.go to declare exchange and queue
+- Create a consumer.go to create the rabbit logic, create a consumer and listen, and write comunication
+- Change main.go to connect, listen and create a consumer
+
+- Create a docker image to listener service and change the make file to run this project
+
+# 11 - Update broker to interact with rabbitMQ
+
+- run **go get github.com/rabbitmq/amqp091-go** to add rabbit to the broker service
