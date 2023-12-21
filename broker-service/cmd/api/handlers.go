@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -65,31 +66,31 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// func (app *Config) logAuthViaRabbit(w http.ResponseWriter, user AuthPayload) {
+func (app *Config) logAuthViaRabbit(w http.ResponseWriter, user AuthPayload) {
 
-// 	err := app.pushToQueue(user.Email, user.Password)
+	err := app.pushToQueue(user.Email, user.Password)
 
-// 	if err != nil {
-// 		app.errorJSON(w, err)
-// 		return
-// 	}
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
 
-// 	// var jsonFromAuthService jsonResponse
-// 	//
-// 	// var payload jsonResponse
-// 	// payload.Error = false
-// 	// payload.Message = "Authenticated!"
-// 	// payload.Data = user
+	// var jsonFromAuthService jsonResponse
+	//
+	// var payload jsonResponse
+	// payload.Error = false
+	// payload.Message = "Authenticated!"
+	// payload.Data = user
 
-// 	payload := jsonResponse{
-// 		Error:   false,
-// 		Message: fmt.Sprintf("Logged in user %s", user.Email),
-// 		Data:    user,
-// 	}
+	payload := jsonResponse{
+		Error:   false,
+		Message: fmt.Sprintf("Logged in user %s", user.Email),
+		Data:    user,
+	}
 
-// 	app.writeJSON(w, http.StatusAccepted, payload)
+	app.writeJSON(w, http.StatusAccepted, payload)
 
-// }
+}
 
 func (app *Config) logEventViaRabbit(w http.ResponseWriter, l LogPayload) {
 

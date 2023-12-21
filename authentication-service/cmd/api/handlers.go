@@ -5,10 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 )
 
 func (app *Config) Authenticate(w http.ResponseWriter, r *http.Request) {
+	log.Printf("enter auth handler")
 	var requestPayload struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
@@ -23,7 +25,7 @@ func (app *Config) Authenticate(w http.ResponseWriter, r *http.Request) {
 
 	// validate the user against the database
 	user, err := app.Models.User.GetByEmail(requestPayload.Email)
-
+	log.Println("Go to get user email", user)
 	if err != nil {
 		app.errorJSON(w, errors.New("invalid credentials"), http.StatusBadRequest)
 		return

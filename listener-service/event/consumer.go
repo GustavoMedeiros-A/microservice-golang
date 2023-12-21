@@ -39,8 +39,8 @@ func (consumer *Consumer) setUp() error {
 }
 
 type Payload struct {
-	Name string `json:"name"`
-	Data string `json:"data"`
+	Name string   `json:"name"`
+	Data []string `json:"data"`
 }
 
 func (consumer *Consumer) Listen(topics []string) error {
@@ -93,8 +93,9 @@ func (consumer *Consumer) Listen(topics []string) error {
 }
 
 func handlePayload(payload Payload) {
+
 	switch payload.Name {
-	case "log", "event":
+	case "log":
 		// Log whatever we get
 		err := logEvent(payload)
 		if err != nil {
@@ -103,10 +104,10 @@ func handlePayload(payload Payload) {
 
 	case "auth":
 		// to auth
-		// err := authEvent(payload)
-		// if err != nil {
-		// 	log.Println(err)
-		// }
+		err := authEvent(payload)
+		if err != nil {
+			log.Println(err)
+		}
 
 	// you can have as many cases as you want, as long as you write the logic
 
@@ -119,8 +120,42 @@ func handlePayload(payload Payload) {
 	}
 }
 
-func logEvent(entry Payload) error {
+func authEvent(entry Payload) error {
+	log.Println("entry auth", entry)
 
+	jsonData, _ := json.MarshalIndent(entry, "", "\t")
+	authServiceURL := "http://authentication-service/authenticate"
+	log.Println("pass to the authServiceURL")
+
+	request, err := http.NewRequest("POST", authServiceURL, bytes.NewBuffer(jsonData))
+	log.Println("pass to the post request")
+	if err != nil {
+		return err
+	}
+
+	request.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+
+	response, err := client.Do(request)
+	log.Println("responde auth", response)
+	log.Println("responde auth status code", response.StatusCode)
+	if err != nil {
+		return err
+	}
+
+	defer response.Body.Close()
+
+	if response.StatusCode != http.StatusAccepted {
+		return err
+	}
+
+	return nil
+
+}
+
+func logEvent(entry Payload) error {
+	log.Println("entry log", entry)
 	jsonData, _ := json.MarshalIndent(entry, "", "\t") // not use that on production
 	logServiceURL := "http://logger-service/log"
 	log.Println("pass to the logServiceURL")
@@ -149,34 +184,3 @@ func logEvent(entry Payload) error {
 
 	return nil
 }
-
-// func authEvent(entry Payload) error {
-// 	jsonData, _ := json.MarshalIndent(entry, "", "\t")
-// 	authServiceURL := "http://authentication-service/authenticate"
-// 	log.Println("pass to the authServiceURL")
-
-// 	request, err := http.NewRequest("POST", authServiceURL, bytes.NewBuffer(jsonData))
-// 	log.Println("pass to the post request")
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	request.Header.Set("Content-Type", "application/json")
-
-// 	client := &http.Client{}
-
-// 	response, err := client.Do(request)
-
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	defer response.Body.Close()
-
-// 	if response.StatusCode != http.StatusAccepted {
-// 		return err
-// 	}
-
-// 	return nil
-
-// }

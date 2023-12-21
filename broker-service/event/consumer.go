@@ -39,8 +39,8 @@ func (consumer *Consumer) setUp() error {
 }
 
 type Payload struct {
-	Name string `json:"name"`
-	Data string `json:"data"`
+	Name string   `json:"name"`
+	Data []string `json:"data"`
 }
 
 func (consumer *Consumer) Listen(topics []string) error {
@@ -94,8 +94,9 @@ func (consumer *Consumer) Listen(topics []string) error {
 
 func handlePayload(payload Payload) {
 	switch payload.Name {
-	case "log", "event":
+	case "log":
 		// Log whatever we get
+		log.Println("entre logging")
 		err := logEvent(payload)
 		if err != nil {
 			log.Println(err)
@@ -103,10 +104,11 @@ func handlePayload(payload Payload) {
 
 	case "auth":
 		// to auth
-		// err := authEvent(payload)
-		// if err != nil {
-		// 	log.Println(err)
-		// }
+		// log.Println("entre auth")
+		err := authEvent(payload)
+		if err != nil {
+			log.Println(err)
+		}
 
 	// you can have as many cases as you want, as long as you write the logic
 
@@ -119,42 +121,35 @@ func handlePayload(payload Payload) {
 	}
 }
 
-// func authEvent(entry Payload) error {
-// 	jsonData, _ := json.MarshalIndent(entry, "", "\t")
-// 	authServiceURL := "http://authentication-service/authenticate"
-// 	log.Println("pass to the authServiceURL")
+func authEvent(entry Payload) error {
+	// create some json we'll send to the auth microservice
+	jsonData, _ := json.MarshalIndent(entry, "", "\t")
 
-// 	request, err := http.NewRequest("POST", authServiceURL, bytes.NewBuffer(jsonData))
-// 	log.Println("pass to the post request")
-// 	if err != nil {
-// 		return err
-// 	}
+	// call the auth-service to logged in
+	request, err := http.NewRequest("POST", "http://authentication-service/authenticate", bytes.NewBuffer(jsonData))
+	if err != nil {
+		return err
+	}
 
-// 	request.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	response, err := client.Do(request)
 
-// 	client := &http.Client{}
-// 	response, err := client.Do(request)
+	if err != nil {
+		return err
+	}
+	defer response.Body.Close()
 
-// 	if err != nil {
-// 		return err
-// 	}
+	// make sure we get back the correct status code
+	if response.StatusCode == http.StatusUnauthorized {
+		return err
+	} else if response.StatusCode != http.StatusAccepted {
+		return err
+	}
 
-// 	defer response.Body.Close()
+	// create a variable we'll read response.Body into
+	return nil
 
-// 	if response.StatusCode != http.StatusAccepted {
-// 		return err
-// 	}
-// 	if response.StatusCode == http.StatusUnauthorized {
-// 		log.Panic("invalid credentials")
-// 		return err
-// 	} else if response.StatusCode != http.StatusAccepted {
-// 		log.Panic("error calling auth service")
-// 		return err
-// 	}
-
-// 	return nil
-
-// }
+}
 
 func logEvent(entry Payload) error {
 

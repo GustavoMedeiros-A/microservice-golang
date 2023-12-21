@@ -74,3 +74,5 @@
 # 11 - Update broker to interact with rabbitMQ
 
 - run **go get github.com/rabbitmq/amqp091-go** to add rabbit to the broker service
+
+# 12 - Start using RPC (Remote procedure call)
