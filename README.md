@@ -78,3 +78,7 @@
 # 12 - Start using RPC (Remote procedure call)
 
 - Set the RPC configuration on the project, and after in the broker set the RPC sender
+
+# 13 - Using now a gRPC (something like RPC but google type)
+
+- Start install gRPC go install **google.golang.org/protobuf/cmd/protoc-gen-go@v1.27** and **go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2**
