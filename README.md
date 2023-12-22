@@ -76,3 +76,5 @@
 - run **go get github.com/rabbitmq/amqp091-go** to add rabbit to the broker service
 
 # 12 - Start using RPC (Remote procedure call)
+
+- Set the RPC configuration on the project, and after in the broker set the RPC sender
