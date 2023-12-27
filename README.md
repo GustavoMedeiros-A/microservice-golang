@@ -82,3 +82,41 @@
 # 13 - Using now a gRPC (something like RPC but google type)
 
 - Start install gRPC go install **google.golang.org/protobuf/cmd/protoc-gen-go@v1.27** and **go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2**
+- install pre-compiled binaries (for gRPC)
+
+# 14 - Using Kubernetes to deploy the microservices - Install
+
+**Tutorial using Windonws**
+
+- Install minikube **https://minikube.sigs.k8s.io/docs/start/**
+- Use the command line to install
+- Install Kubectl **https://kubernetes.io/docs/tasks/tools/**
+
+- To install use **curl.exe -LO "https://dl.k8s.io/release/v1.29.0/bin/windows/amd64/kubectl.exe"**
+- To make Validate the binary **curl.exe -LO "https://dl.k8s.io/v1.29.0/bin/windows/amd64/kubectl.exe.sha256"**
+
+# 15 - Actually use kubernetes
+
+- Go to project folder and run
+
+  - _minikube start --nodes=2_ -> will start the download of images, is gona take a little time
+    - Now you have 2 docker container running
+  - _minikube dashboard_ -> this is open the dashboard on the browser, and you can config as you want
+
+  **Start the deploying files**
+
+  - _kubectl get pods -A_
+  - Create a folder k8s to keep the files
+  - Write the deployment file
+
+  - Run _kubectl apply -f k8s_
+  - Need to run mongo now -> _kubectl get pods_
+  - Run _kubectl get svc_
+  - Run _kubectl get deployments_
+
+**Other commands**
+
+- _minikube status_
+- _minikube stop_
+- _minikube start_
+- _minikube addons enable metrics-server_
