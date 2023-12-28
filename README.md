@@ -127,3 +127,26 @@
 - _minikube stop_
 - _minikube start_
 - _minikube addons enable metrics-server_
+
+# 16 - To run the postgres deployment
+
+- Create a postgres.yml in project folder, run as a docker-compose file
+- Type _docker-compose -f postgres.yml up -d_
+- And run a postgres to connect
+
+# 17 - Put the kubernets cluster to the outside world
+
+**LOAD BALANCE - NGINX**
+
+- _kubectl expose deployment broker-service --type=LoadBalancer --port=8080 --target-port=8080_
+- _minikube tunnel_ OR **minikube tunnel --bind-address='\*'**
+
+# 18 - Add NGINX to the project
+
+- **minikube addons enable ingress**
+- Add the ingress.yml file to the project
+- _kubectl apply -f ingress.yml_
+- _sudo vi /etc/hosts_ -> to edit host file
+- **Watch the class**
+
+# 19 - Update logger service instance
