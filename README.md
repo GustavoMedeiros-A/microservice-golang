@@ -114,6 +114,13 @@
   - Run _kubectl get svc_
   - Run _kubectl get deployments_
 
+  **Remove deployments**
+
+  - Run _kubectl get deployments_
+  - Run _kubectl delete deployments broker-service mongo rabbitmq_
+  - Run _kubectl get svc_
+  - Run _kubectl delete svc broker-service mongo rabbitmq_
+
 **Other commands**
 
 - _minikube status_
