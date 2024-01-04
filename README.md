@@ -120,3 +120,39 @@
 - _minikube stop_
 - _minikube start_
 - _minikube addons enable metrics-server_
+
+# 16 - Write some test to the application (I'll just write in the authentication-service)
+
+- **Import testing and go to the file setup_test to see the example**
+
+- Start setup the test, you'll need to change the app \*Config, to run now the code with a repository Layer, that is a
+  pattern of architecture
+- After that, setup the test to the routes and the models, i have a very simple code example to look at
+- And then, setup the handler_test, that can be more complicated, because we i gonna to see the HTTP status code
+  and other things
+
+**To run the tests**
+
+- _Go to the cmd/api folder in authentication service project and run "go test -v ."_
+
+**We need to MOCK the data on the LogRequest in the handler authentication**
+
+- Create the RoundTrip in handle_test, exactly like that, with this exactly name
+
+```
+type RoundTripFunc func(req *http.Request) *http.Response
+
+func (f RoundTripFunc) RoundTrip(req *http.Request) (*http.Response, error) {
+	return f(req), nil
+}
+
+func NewTestClient(fn RoundTripFunc) *http.Client {
+	return &http.Client{
+		Transport: fn,
+	}
+}
+
+```
+
+- modify the main.go to add the http.Client{} in that
+- After all that change, we finishing the course

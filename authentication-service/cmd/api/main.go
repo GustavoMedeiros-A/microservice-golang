@@ -1,13 +1,13 @@
 package main
 
 import (
-	"database/sql"
 	"authentication/data"
-	"log"
+	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
-	"time"
 	"os"
+	"time"
 
 	_ "github.com/jackc/pgconn"
 	_ "github.com/jackc/pgx/v4"
@@ -19,13 +19,12 @@ const webPort = "80"
 var counts int64
 
 type Config struct {
-	DB *sql.DB
-	Models data.Models
+	Repo   data.Repository
+	Client *http.Client
 }
 
 func main() {
 	log.Println("Starting authentication service")
-
 
 	// connect to db
 
@@ -35,13 +34,12 @@ func main() {
 	}
 
 	// set up config
-	app := Config {
-		DB: conn, 
-		Models: data.New(conn),
+	app := Config{
+		Client: &http.Client{},
 	}
 
-	service := &http.Server {
-		Addr: fmt.Sprintf(":%s", webPort),
+	service := &http.Server{
+		Addr:    fmt.Sprintf(":%s", webPort),
 		Handler: app.routes(),
 	}
 
@@ -90,5 +88,11 @@ func connectToDB() *sql.DB {
 		log.Println("Backing off for two seconds...")
 		time.Sleep(2 * time.Second)
 		continue
-	} 
+	}
+}
+
+func (app *Config) setupRepo(conn *sql.DB) {
+	db := data.NewPostgresRepository(conn)
+
+	app.Repo = db
 }
